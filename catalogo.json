@@ -11,7 +11,7 @@
       "mesh_instances": 476,
       "triangles": 614460,
       "materials": 6,
-      "bytes": 5815464,
+      "bytes": 5815468,
       "optimization": "auto",
       "original_triangles": 1991630,
       "auto_target_triangles": 500000,
@@ -20,9 +20,10 @@
       "mesh_tolerance_mm": 1.247008,
       "angular_tolerance_rad": 0.447463,
       "auto_attempts": 5,
-      "sha256": "1525e8bf73a74446309ce3ee4fd36259055e698a333ef97a3c2d69eeed2670e4",
+      "sha256": "4721b79dbd8c2a08637946da7af3504bd1e75afe31b20c77828c6fb911521c28",
       "source_sha256": "170f28b16c7c3fac06ee41d1824c26e02f07f59abfb16a426da6c9bf0ba30c10",
-      "converter": "5197509a32d1ed0b7f49a2daa504e8e8ad636f6c7801e0879aa54d34a7842730"
+      "converter": "5197509a32d1ed0b7f49a2daa504e8e8ad636f6c7801e0879aa54d34a7842730",
+      "axis_correction": "+90deg_x_to_y_up"
     },
     {
       "id": "full-assy-coral-05-22-26-2abf0143a1",
@@ -34,7 +35,7 @@
       "mesh_instances": 3077,
       "triangles": 6969636,
       "materials": 8,
-      "bytes": 3341416,
+      "bytes": 3341420,
       "optimization": "auto",
       "original_triangles": 9671092,
       "auto_target_triangles": 250000,
@@ -47,9 +48,10 @@
         "FULL ASSY CORAL 05.22.26.stp: 3077 peças excedem o recomendado de 1000; o modelo será publicado mesmo assim.",
         "FULL ASSY CORAL 05.22.26.stp: 6,969,636 triângulos excedem o recomendado de 2,000,000; o modelo será publicado mesmo assim."
       ],
-      "sha256": "885b7fa9d63647b2bbfaed84c29dd2059f8a0500c6dd1db00ec206450bce6064",
+      "sha256": "751fc2b92142c4dfc9007391541e54291c35a36c1cb36911dd2ea711bc771024",
       "source_sha256": "56e114a0a11733695c8b190ab32d9c8488d99f3c451b48ea9e29bae2dc5211ec",
-      "converter": "5197509a32d1ed0b7f49a2daa504e8e8ad636f6c7801e0879aa54d34a7842730"
+      "converter": "5197509a32d1ed0b7f49a2daa504e8e8ad636f6c7801e0879aa54d34a7842730",
+      "axis_correction": "+90deg_x_to_y_up"
     },
     {
       "id": "model-34e5465a38",
@@ -61,7 +63,7 @@
       "mesh_instances": 1,
       "triangles": 4704,
       "materials": 2,
-      "bytes": 150728,
+      "bytes": 150732,
       "optimization": "auto",
       "original_triangles": 4704,
       "auto_target_triangles": 800000,
@@ -70,9 +72,10 @@
       "mesh_tolerance_mm": 0.25,
       "angular_tolerance_rad": 0.2,
       "auto_attempts": 1,
-      "sha256": "d13665d10f2762a3c854be3d4a1b5c7aba729f497fa6c65793b0f3f411d61250",
+      "sha256": "5b80bd0b6808be2475077a6417abbb60add659a3db741d0cf20e46da671ec22e",
       "source_sha256": "7b0839248d6ffb910d1ec7564b0cf239406f0f36480c5f84a006f4eaf279461e",
-      "converter": "5197509a32d1ed0b7f49a2daa504e8e8ad636f6c7801e0879aa54d34a7842730"
+      "converter": "5197509a32d1ed0b7f49a2daa504e8e8ad636f6c7801e0879aa54d34a7842730",
+      "axis_correction": "+90deg_x_to_y_up"
     },
     {
       "id": "portico-exemplo-84bf2f67bc",
@@ -84,7 +87,7 @@
       "mesh_instances": 3,
       "triangles": 36,
       "materials": 2,
-      "bytes": 4164,
+      "bytes": 4168,
       "optimization": "auto",
       "original_triangles": 36,
       "auto_target_triangles": 800000,
@@ -93,9 +96,10 @@
       "mesh_tolerance_mm": 0.25,
       "angular_tolerance_rad": 0.2,
       "auto_attempts": 1,
-      "sha256": "44d4fa6082d9244d4910be96b513a826f27a8bae0dd1b433c5129b59bfd91724",
+      "sha256": "bd20ebae54174bb13a0daf5eb305f2452b8e4a0eb2b4b917d5035b0fddf03280",
       "source_sha256": "a079ab656e4a3c468d3a2482ffb26e01544bf0503039d2f5770948c27bffbbc5",
-      "converter": "5197509a32d1ed0b7f49a2daa504e8e8ad636f6c7801e0879aa54d34a7842730"
+      "converter": "5197509a32d1ed0b7f49a2daa504e8e8ad636f6c7801e0879aa54d34a7842730",
+      "axis_correction": "+90deg_x_to_y_up"
     }
   ]
 }
