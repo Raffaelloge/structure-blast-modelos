@@ -1,0 +1,51 @@
+name: Converter STEP para GLB
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'originais/**'
+      - 'scripts/**'
+      - 'config.json'
+      - 'requirements.txt'
+      - '.github/workflows/converter.yml'
+  workflow_dispatch:
+
+concurrency:
+  group: biblioteca-modelos
+  cancel-in-progress: false
+permissions:
+  contents: read
+
+jobs:
+  converter:
+    if: github.ref == 'refs/heads/main'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          ref: main
+      - uses: actions/setup-python@v6
+        with:
+          python-version: '3.11'
+          cache: pip
+      - name: Instalar conversor
+        run: python -m pip install -r requirements.txt
+      - name: Converter arquivos novos ou alterados
+        run: python scripts/converter.py
+      - name: Publicar GLBs e catálogo no repositório
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add -- modelos catalogo.json
+          if git diff --cached --quiet; then
+            echo 'Biblioteca já atualizada.'
+            exit 0
+          fi
+          git commit -m 'Atualiza biblioteca GLB [skip ci]'
+          # Não força o push: se main avançar, reexecutar processa a versão atual.
+          git push origin HEAD:main
