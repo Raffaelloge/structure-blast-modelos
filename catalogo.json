@@ -22,7 +22,34 @@
       "auto_attempts": 5,
       "sha256": "1525e8bf73a74446309ce3ee4fd36259055e698a333ef97a3c2d69eeed2670e4",
       "source_sha256": "170f28b16c7c3fac06ee41d1824c26e02f07f59abfb16a426da6c9bf0ba30c10",
-      "converter": "1c226345ebeff81f743b05de67f217d35d24fad22e5a65d0066261ab38f61219"
+      "converter": "5197509a32d1ed0b7f49a2daa504e8e8ad636f6c7801e0879aa54d34a7842730"
+    },
+    {
+      "id": "full-assy-coral-05-22-26-2abf0143a1",
+      "name": "FULL ASSY CORAL 05.22.26",
+      "author": "",
+      "description": "",
+      "source": "originais/FULL ASSY CORAL 05.22.26.stp",
+      "file": "modelos/full-assy-coral-05-22-26-2abf0143a1.glb",
+      "mesh_instances": 3077,
+      "triangles": 6969636,
+      "materials": 8,
+      "bytes": 3341416,
+      "optimization": "auto",
+      "original_triangles": 9671092,
+      "auto_target_triangles": 250000,
+      "auto_target_met": false,
+      "reduction_percent": 27.9,
+      "mesh_tolerance_mm": 9.765625,
+      "angular_tolerance_rad": 1.0,
+      "auto_attempts": 5,
+      "complexity_warnings": [
+        "FULL ASSY CORAL 05.22.26.stp: 3077 peças excedem o recomendado de 1000; o modelo será publicado mesmo assim.",
+        "FULL ASSY CORAL 05.22.26.stp: 6,969,636 triângulos excedem o recomendado de 2,000,000; o modelo será publicado mesmo assim."
+      ],
+      "sha256": "885b7fa9d63647b2bbfaed84c29dd2059f8a0500c6dd1db00ec206450bce6064",
+      "source_sha256": "56e114a0a11733695c8b190ab32d9c8488d99f3c451b48ea9e29bae2dc5211ec",
+      "converter": "5197509a32d1ed0b7f49a2daa504e8e8ad636f6c7801e0879aa54d34a7842730"
     },
     {
       "id": "portico-exemplo-84bf2f67bc",
@@ -45,7 +72,7 @@
       "auto_attempts": 1,
       "sha256": "44d4fa6082d9244d4910be96b513a826f27a8bae0dd1b433c5129b59bfd91724",
       "source_sha256": "a079ab656e4a3c468d3a2482ffb26e01544bf0503039d2f5770948c27bffbbc5",
-      "converter": "1c226345ebeff81f743b05de67f217d35d24fad22e5a65d0066261ab38f61219"
+      "converter": "5197509a32d1ed0b7f49a2daa504e8e8ad636f6c7801e0879aa54d34a7842730"
     }
   ]
 }
