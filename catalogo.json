@@ -2,6 +2,21 @@
   "schema_version": 1,
   "models": [
     {
+      "id": "assembly-full-4f765cf732",
+      "name": "Assembly full",
+      "author": "",
+      "description": "",
+      "source": "originais/Assembly full.stp",
+      "file": "modelos/assembly-full-4f765cf732.glb",
+      "mesh_instances": 476,
+      "triangles": 1991630,
+      "materials": 6,
+      "bytes": 19762520,
+      "sha256": "56a2b076d90f64dea37c7e5e007563ffb53fffa460560d7c3f25e100c6047d88",
+      "source_sha256": "170f28b16c7c3fac06ee41d1824c26e02f07f59abfb16a426da6c9bf0ba30c10",
+      "converter": "cf09e77f384956401e63c10f6e25bf202a9b495fd00c5fc2958fb0d3e1d51bf2"
+    },
+    {
       "id": "portico-exemplo-84bf2f67bc",
       "name": "Pórtico de exemplo",
       "author": "Structure Blast",
@@ -11,10 +26,10 @@
       "mesh_instances": 3,
       "triangles": 36,
       "materials": 2,
-      "bytes": 4208,
-      "sha256": "4541aa609ca2cf992692452556a94797ef06aee51a54890cf81142d137415748",
+      "bytes": 4164,
+      "sha256": "44d4fa6082d9244d4910be96b513a826f27a8bae0dd1b433c5129b59bfd91724",
       "source_sha256": "a079ab656e4a3c468d3a2482ffb26e01544bf0503039d2f5770948c27bffbbc5",
-      "converter": "20ee02f5921538f0dd400cc62b5dad1a492158cf6da753bc496056e2a8c0304d"
+      "converter": "cf09e77f384956401e63c10f6e25bf202a9b495fd00c5fc2958fb0d3e1d51bf2"
     }
   ]
 }
