@@ -17,6 +17,7 @@ import tempfile
 ROOT = Path(__file__).resolve().parents[1]
 VERSION = 1
 AUTO_MAX_ATTEMPTS = 5
+MESH_PIPELINE_VERSION = 1
 
 
 def digest(path):
@@ -333,19 +334,27 @@ def load_config():
     return config
 
 
+def _mesh_fingerprint(config):
+    """Fingerprint only settings that actually change generated geometry."""
+    mesh_config = {
+        'mesh_pipeline_version': MESH_PIPELINE_VERSION,
+        'tolerance_mm': config['tolerance_mm'],
+        'angular_tolerance_rad': config['angular_tolerance_rad'],
+        'max_output_mb': config['max_output_mb'],
+        'max_triangles': config['max_triangles'],
+    }
+    return hashlib.sha256(
+        (json.dumps(mesh_config, sort_keys=True) + digest(ROOT / 'requirements.txt')).encode()
+    ).hexdigest()
+
+
 def build():
     source_dir, output_dir = ROOT / 'originais', ROOT / 'modelos'
     inside(source_dir, ROOT)
     inside(output_dir, ROOT)
     output_dir.mkdir(exist_ok=True)
     config = load_config()
-    fingerprint = hashlib.sha256(
-        (
-            json.dumps(config, sort_keys=True)
-            + digest(Path(__file__))
-            + digest(ROOT / 'requirements.txt')
-        ).encode()
-    ).hexdigest()
+    fingerprint = _mesh_fingerprint(config)
     catalog_path = ROOT / 'catalogo.json'
     previous = json.loads(catalog_path.read_text()) if catalog_path.exists() else {'models': []}
     old = {m['id']: m for m in previous['models']}
@@ -378,11 +387,19 @@ def build():
 
                 entry = old.get(model_id, {})
                 target = inside(ROOT / file, output_dir)
+                # Migration path: existing AUTO outputs made immediately before
+                # mesh-versioned fingerprints are still valid for pipeline v1.
+                legacy_auto_cache = (
+                    entry.get('optimization') == 'auto'
+                    and 'mesh_tolerance_mm' in entry
+                    and 'angular_tolerance_rad' in entry
+                    and 'original_triangles' in entry
+                )
                 cached = (
                     entry.get('source_sha256') == source_hash
-                    and entry.get('converter') == fingerprint
                     and target.is_file()
                     and entry.get('sha256') == digest(target)
+                    and (entry.get('converter') == fingerprint or legacy_auto_cache)
                 )
 
                 if cached:
@@ -407,7 +424,6 @@ def build():
                 if stats['bytes'] > config['max_output_mb'] * 1024**2:
                     raise ValueError('GLB excede o limite de saída; simplifique o STEP')
 
-                # Complexity thresholds are recommendations, not publication blockers.
                 final_warnings = _warn_complexity(source, stats, config)
                 if final_warnings:
                     quality['complexity_warnings'] = final_warnings
