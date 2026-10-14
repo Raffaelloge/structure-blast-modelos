@@ -4,6 +4,7 @@ on:
     branches: [main]
     paths:
       - 'originais/**'
+      - 'modelos/**/*.glb'
       - 'scripts/**'
       - 'config.json'
       - 'requirements.txt'
@@ -33,10 +34,14 @@ jobs:
           cache: pip
       - name: Instalar conversor
         run: python -m pip install -r requirements.txt
+      - name: Preservar GLBs enviados diretamente
+        run: python scripts/sync_direct_glb.py --strip
       - name: Converter arquivos novos ou alterados
         run: python scripts/converter.py
       - name: Corrigir orientação dos GLBs STEP
         run: python scripts/orientation_fix.py
+      - name: Indexar GLBs enviados diretamente
+        run: python scripts/sync_direct_glb.py
       - name: Publicar GLBs e catálogo no repositório
         shell: bash
         run: |
