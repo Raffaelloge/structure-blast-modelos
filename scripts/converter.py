@@ -16,6 +16,7 @@ import tempfile
 
 ROOT = Path(__file__).resolve().parents[1]
 VERSION = 1
+AUTO_MAX_ATTEMPTS = 5
 
 
 def digest(path):
@@ -81,8 +82,6 @@ def _patch_gltf_axis(target):
         raise ValueError('JSON inicial GLB ausente')
     document = json.loads(data[20:20+size])
     nodes = document.setdefault('nodes', [])
-    # OpenCascade's STEPCAF reader keeps CAD Z-up. RWGltf writes STEP units in
-    # meters already, so only the -90° X rotation is required here.
     q = 0.7071067811865476
     for scene in document.get('scenes', []):
         root_id = len(nodes)
@@ -104,12 +103,7 @@ def _patch_gltf_axis(target):
 
 
 def convert_one(source, target, tolerance, angular):
-    """Read STEP directly into XCAF, mesh it, and export GLB.
-
-    This intentionally bypasses cq.Assembly.load(). CadQuery currently rejects
-    valid STEP assemblies that reuse the same component/subassembly name (for
-    example patterned parts named "pattern"). XCAF itself supports those files.
-    """
+    """Read STEP directly into XCAF, mesh it, and export GLB."""
     from OCP.BRepMesh import BRepMesh_IncrementalMesh
     from OCP.IFSelect import IFSelect_RetDone
     from OCP.Message import Message_ProgressRange
@@ -164,6 +158,148 @@ def convert_one(source, target, tolerance, angular):
 
     _patch_gltf_axis(target)
     inspect_glb(target)
+
+
+def _auto_triangle_target(mesh_instances, hard_limit):
+    """Choose a game-oriented triangle budget from the number of physical pieces."""
+    if mesh_instances <= 100:
+        target = 800_000
+    elif mesh_instances <= 250:
+        target = 650_000
+    elif mesh_instances <= 500:
+        target = 500_000
+    elif mesh_instances <= 800:
+        target = 400_000
+    elif mesh_instances <= 1200:
+        target = 300_000
+    else:
+        target = 250_000
+    return min(target, int(hard_limit))
+
+
+def _run_worker(source, target, tolerance, angular, timeout):
+    command = [
+        sys.executable,
+        str(Path(__file__).resolve()),
+        '--worker',
+        str(source),
+        str(target),
+        str(tolerance),
+        str(angular),
+    ]
+    result = subprocess.run(command, timeout=timeout, capture_output=True, text=True)
+    if result.returncode:
+        raise ValueError('Conversor falhou: ' + (result.stderr or result.stdout)[-1400:])
+    return inspect_glb(target)
+
+
+def _auto_convert(source, stage, model_id, config):
+    """Mesh repeatedly, increasing deflection only as much as the model needs.
+
+    The first pass uses the normal CAD-quality settings. Its piece count defines
+    a game-oriented triangle target. Later passes are chosen from the measured
+    triangle/size pressure, so small models stay detailed while large assemblies
+    are simplified aggressively enough for real-time use.
+    """
+    tolerance = float(config['tolerance_mm'])
+    angular = float(config['angular_tolerance_rad'])
+    max_bytes = int(config['max_output_mb'] * 1024**2)
+    hard_triangles = int(config['max_triangles'])
+    attempts = []
+    best = None
+    target_triangles = None
+
+    for attempt in range(1, AUTO_MAX_ATTEMPTS + 1):
+        attempt_file = stage / f'{model_id}.auto{attempt}.glb'
+        stats = _run_worker(
+            source,
+            attempt_file,
+            tolerance,
+            angular,
+            config['timeout_seconds'],
+        )
+        if target_triangles is None:
+            target_triangles = _auto_triangle_target(stats['mesh_instances'], hard_triangles)
+
+        tri_pressure = stats['triangles'] / max(1, target_triangles)
+        byte_pressure = stats['bytes'] / max(1, max_bytes)
+        pressure = max(tri_pressure, byte_pressure)
+        score = (pressure, stats['triangles'], stats['bytes'])
+        record = {
+            'file': attempt_file,
+            'stats': stats,
+            'tolerance': tolerance,
+            'angular': angular,
+            'score': score,
+        }
+        attempts.append(record)
+        if best is None or score < best['score']:
+            best = record
+
+        print(
+            'AUTO '
+            f'{source.name} tentativa {attempt}/{AUTO_MAX_ATTEMPTS}: '
+            f'{stats["mesh_instances"]} peças · {stats["triangles"]:,} tri · '
+            f'{stats["bytes"] / 1024**2:.1f} MB · '
+            f'tol={tolerance:.4g} · ang={angular:.3g} · meta={target_triangles:,}',
+            flush=True,
+        )
+
+        if stats['triangles'] <= target_triangles and stats['bytes'] <= max_bytes:
+            best = record
+            break
+
+        if attempt >= 2:
+            previous = attempts[-2]['stats']
+            tri_gain = 1.0 - stats['triangles'] / max(1, previous['triangles'])
+            byte_gain = 1.0 - stats['bytes'] / max(1, previous['bytes'])
+            # Flat/simple geometry can reach a tessellation floor. Do not waste
+            # runner time retrying when a coarser pass barely changes the result.
+            if max(tri_gain, byte_gain) < 0.015:
+                print('AUTO: ganho abaixo de 1.5%; mantendo a melhor malha obtida.', flush=True)
+                break
+
+        # Triangle density roughly follows inverse deflection; use the measured
+        # pressure rather than a fixed quality ladder. Clamp each jump so curved
+        # parts do not suddenly become excessively faceted.
+        linear_factor = min(2.5, max(1.25, math.sqrt(max(1.0, pressure))))
+        angular_factor = min(1.65, max(1.12, max(1.0, pressure) ** 0.25))
+        new_tolerance = min(10.0, tolerance * linear_factor)
+        new_angular = min(1.0, angular * angular_factor)
+        if math.isclose(new_tolerance, tolerance) and math.isclose(new_angular, angular):
+            break
+        tolerance, angular = new_tolerance, new_angular
+
+    if best is None:
+        raise ValueError('AUTO não produziu nenhuma malha válida')
+
+    stats = best['stats']
+    if stats['bytes'] > max_bytes:
+        raise ValueError(f'AUTO não conseguiu reduzir o GLB abaixo de {config["max_output_mb"]} MB')
+    if stats['mesh_instances'] > config['max_mesh_instances']:
+        raise ValueError(f'Modelo tem peças demais: {stats["mesh_instances"]} > {config["max_mesh_instances"]}')
+    if stats['triangles'] > hard_triangles:
+        raise ValueError(f'AUTO não conseguiu reduzir abaixo do limite de {hard_triangles:,} triângulos')
+
+    first_triangles = attempts[0]['stats']['triangles']
+    reduction = 100.0 * (1.0 - stats['triangles'] / max(1, first_triangles))
+    quality = {
+        'optimization': 'auto',
+        'original_triangles': first_triangles,
+        'auto_target_triangles': target_triangles,
+        'auto_target_met': stats['triangles'] <= target_triangles and stats['bytes'] <= max_bytes,
+        'reduction_percent': round(max(0.0, reduction), 1),
+        'mesh_tolerance_mm': round(best['tolerance'], 6),
+        'angular_tolerance_rad': round(best['angular'], 6),
+        'auto_attempts': len(attempts),
+    }
+    print(
+        f'AUTO ESCOLHIDO {source.name}: {stats["triangles"]:,} tri · '
+        f'{quality["reduction_percent"]:.1f}% redução · '
+        f'tol={quality["mesh_tolerance_mm"]} · ang={quality["angular_tolerance_rad"]}',
+        flush=True,
+    )
+    return best['file'], stats, quality
 
 
 def load_config():
@@ -244,28 +380,19 @@ def build():
                 if cached:
                     stats = inspect_glb(target)
                     output_hash = digest(target)
+                    quality = {
+                        key: entry[key]
+                        for key in (
+                            'optimization', 'original_triangles', 'auto_target_triangles',
+                            'auto_target_met', 'reduction_percent', 'mesh_tolerance_mm',
+                            'angular_tolerance_rad', 'auto_attempts',
+                        )
+                        if key in entry
+                    }
                     print(f'CACHE {relative}', flush=True)
                 else:
-                    staged = stage / (model_id + '.glb')
-                    print(f'CONVERTENDO {relative}', flush=True)
-                    command = [
-                        sys.executable,
-                        str(Path(__file__).resolve()),
-                        '--worker',
-                        str(source),
-                        str(staged),
-                        str(config['tolerance_mm']),
-                        str(config['angular_tolerance_rad']),
-                    ]
-                    result = subprocess.run(
-                        command,
-                        timeout=config['timeout_seconds'],
-                        capture_output=True,
-                        text=True,
-                    )
-                    if result.returncode:
-                        raise ValueError('Conversor falhou: ' + (result.stderr or result.stdout)[-1400:])
-                    stats = inspect_glb(staged)
+                    print(f'CONVERTENDO {relative} · AUTO', flush=True)
+                    staged, stats, quality = _auto_convert(source, stage, model_id, config)
                     output_hash = digest(staged)
                     changed.append((staged, target))
 
@@ -275,7 +402,7 @@ def build():
                     stats['mesh_instances'] > config['max_mesh_instances']
                     or stats['triangles'] > config['max_triangles']
                 ):
-                    raise ValueError(f'Modelo complexo demais: {stats}; simplifique ou ajuste config.json')
+                    raise ValueError(f'Modelo complexo demais mesmo após AUTO: {stats}')
 
                 def label(key, default, limit):
                     value = metadata.get(key, default)
@@ -291,6 +418,7 @@ def build():
                     'source': relative,
                     'file': file,
                     **stats,
+                    **quality,
                     'sha256': output_hash,
                     'source_sha256': source_hash,
                     'converter': fingerprint,
