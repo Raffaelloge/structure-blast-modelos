@@ -9,12 +9,20 @@
       "source": "originais/Assembly full.stp",
       "file": "modelos/assembly-full-4f765cf732.glb",
       "mesh_instances": 476,
-      "triangles": 1991630,
+      "triangles": 614460,
       "materials": 6,
-      "bytes": 19762520,
-      "sha256": "56a2b076d90f64dea37c7e5e007563ffb53fffa460560d7c3f25e100c6047d88",
+      "bytes": 5815464,
+      "optimization": "auto",
+      "original_triangles": 1991630,
+      "auto_target_triangles": 500000,
+      "auto_target_met": false,
+      "reduction_percent": 69.1,
+      "mesh_tolerance_mm": 1.247008,
+      "angular_tolerance_rad": 0.447463,
+      "auto_attempts": 5,
+      "sha256": "1525e8bf73a74446309ce3ee4fd36259055e698a333ef97a3c2d69eeed2670e4",
       "source_sha256": "170f28b16c7c3fac06ee41d1824c26e02f07f59abfb16a426da6c9bf0ba30c10",
-      "converter": "cf09e77f384956401e63c10f6e25bf202a9b495fd00c5fc2958fb0d3e1d51bf2"
+      "converter": "1c226345ebeff81f743b05de67f217d35d24fad22e5a65d0066261ab38f61219"
     },
     {
       "id": "portico-exemplo-84bf2f67bc",
@@ -27,9 +35,17 @@
       "triangles": 36,
       "materials": 2,
       "bytes": 4164,
+      "optimization": "auto",
+      "original_triangles": 36,
+      "auto_target_triangles": 800000,
+      "auto_target_met": true,
+      "reduction_percent": 0.0,
+      "mesh_tolerance_mm": 0.25,
+      "angular_tolerance_rad": 0.2,
+      "auto_attempts": 1,
       "sha256": "44d4fa6082d9244d4910be96b513a826f27a8bae0dd1b433c5129b59bfd91724",
       "source_sha256": "a079ab656e4a3c468d3a2482ffb26e01544bf0503039d2f5770948c27bffbbc5",
-      "converter": "cf09e77f384956401e63c10f6e25bf202a9b495fd00c5fc2958fb0d3e1d51bf2"
+      "converter": "1c226345ebeff81f743b05de67f217d35d24fad22e5a65d0066261ab38f61219"
     }
   ]
 }
