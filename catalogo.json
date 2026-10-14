@@ -124,6 +124,21 @@
       "source_sha256": "a079ab656e4a3c468d3a2482ffb26e01544bf0503039d2f5770948c27bffbbc5",
       "converter": "5197509a32d1ed0b7f49a2daa504e8e8ad636f6c7801e0879aa54d34a7842730",
       "axis_correction": "+90deg_x_to_y_up"
+    },
+    {
+      "id": "glb-teste-bb946c0271",
+      "name": "teste",
+      "author": "",
+      "description": "GLB enviado diretamente para a biblioteca.",
+      "source": "modelos/teste.glb",
+      "file": "modelos/teste.glb",
+      "mesh_instances": 2,
+      "triangles": 35634,
+      "materials": 2,
+      "bytes": 981348,
+      "optimization": "prebuilt",
+      "import_type": "direct_glb",
+      "sha256": "3457251863479b6cfbc0be05cb29d03c41de070c6cdb3b3e8ec5fbde5208fed5"
     }
   ]
 }
