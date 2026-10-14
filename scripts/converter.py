@@ -193,14 +193,27 @@ def _run_worker(source, target, tolerance, angular, timeout):
     return inspect_glb(target)
 
 
-def _auto_convert(source, stage, model_id, config):
-    """Mesh repeatedly, increasing deflection only as much as the model needs.
+def _warn_complexity(source, stats, config):
+    warnings = []
+    if stats['mesh_instances'] > config['max_mesh_instances']:
+        message = (
+            f'{source.name}: {stats["mesh_instances"]} peças excedem o recomendado '
+            f'de {config["max_mesh_instances"]}; o modelo será publicado mesmo assim.'
+        )
+        print(f'::warning title=Modelo com muitas peças::{message}', flush=True)
+        warnings.append(message)
+    if stats['triangles'] > config['max_triangles']:
+        message = (
+            f'{source.name}: {stats["triangles"]:,} triângulos excedem o recomendado '
+            f'de {int(config["max_triangles"]):,}; o modelo será publicado mesmo assim.'
+        )
+        print(f'::warning title=Modelo com muitos triângulos::{message}', flush=True)
+        warnings.append(message)
+    return warnings
 
-    The first pass uses the normal CAD-quality settings. Its piece count defines
-    a game-oriented triangle target. Later passes are chosen from the measured
-    triangle/size pressure, so small models stay detailed while large assemblies
-    are simplified aggressively enough for real-time use.
-    """
+
+def _auto_convert(source, stage, model_id, config):
+    """Mesh repeatedly, increasing deflection only as much as the model needs."""
     tolerance = float(config['tolerance_mm'])
     angular = float(config['angular_tolerance_rad'])
     max_bytes = int(config['max_output_mb'] * 1024**2)
@@ -253,15 +266,10 @@ def _auto_convert(source, stage, model_id, config):
             previous = attempts[-2]['stats']
             tri_gain = 1.0 - stats['triangles'] / max(1, previous['triangles'])
             byte_gain = 1.0 - stats['bytes'] / max(1, previous['bytes'])
-            # Flat/simple geometry can reach a tessellation floor. Do not waste
-            # runner time retrying when a coarser pass barely changes the result.
             if max(tri_gain, byte_gain) < 0.015:
                 print('AUTO: ganho abaixo de 1.5%; mantendo a melhor malha obtida.', flush=True)
                 break
 
-        # Triangle density roughly follows inverse deflection; use the measured
-        # pressure rather than a fixed quality ladder. Clamp each jump so curved
-        # parts do not suddenly become excessively faceted.
         linear_factor = min(2.5, max(1.25, math.sqrt(max(1.0, pressure))))
         angular_factor = min(1.65, max(1.12, max(1.0, pressure) ** 0.25))
         new_tolerance = min(10.0, tolerance * linear_factor)
@@ -276,11 +284,8 @@ def _auto_convert(source, stage, model_id, config):
     stats = best['stats']
     if stats['bytes'] > max_bytes:
         raise ValueError(f'AUTO não conseguiu reduzir o GLB abaixo de {config["max_output_mb"]} MB')
-    if stats['mesh_instances'] > config['max_mesh_instances']:
-        raise ValueError(f'Modelo tem peças demais: {stats["mesh_instances"]} > {config["max_mesh_instances"]}')
-    if stats['triangles'] > hard_triangles:
-        raise ValueError(f'AUTO não conseguiu reduzir abaixo do limite de {hard_triangles:,} triângulos')
 
+    complexity_warnings = _warn_complexity(source, stats, config)
     first_triangles = attempts[0]['stats']['triangles']
     reduction = 100.0 * (1.0 - stats['triangles'] / max(1, first_triangles))
     quality = {
@@ -293,6 +298,9 @@ def _auto_convert(source, stage, model_id, config):
         'angular_tolerance_rad': round(best['angular'], 6),
         'auto_attempts': len(attempts),
     }
+    if complexity_warnings:
+        quality['complexity_warnings'] = complexity_warnings
+
     print(
         f'AUTO ESCOLHIDO {source.name}: {stats["triangles"]:,} tri · '
         f'{quality["reduction_percent"]:.1f}% redução · '
@@ -385,7 +393,7 @@ def build():
                         for key in (
                             'optimization', 'original_triangles', 'auto_target_triangles',
                             'auto_target_met', 'reduction_percent', 'mesh_tolerance_mm',
-                            'angular_tolerance_rad', 'auto_attempts',
+                            'angular_tolerance_rad', 'auto_attempts', 'complexity_warnings',
                         )
                         if key in entry
                     }
@@ -398,11 +406,11 @@ def build():
 
                 if stats['bytes'] > config['max_output_mb'] * 1024**2:
                     raise ValueError('GLB excede o limite de saída; simplifique o STEP')
-                if (
-                    stats['mesh_instances'] > config['max_mesh_instances']
-                    or stats['triangles'] > config['max_triangles']
-                ):
-                    raise ValueError(f'Modelo complexo demais mesmo após AUTO: {stats}')
+
+                # Complexity thresholds are recommendations, not publication blockers.
+                final_warnings = _warn_complexity(source, stats, config)
+                if final_warnings:
+                    quality['complexity_warnings'] = final_warnings
 
                 def label(key, default, limit):
                     value = metadata.get(key, default)
