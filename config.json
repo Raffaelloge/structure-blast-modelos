@@ -2,8 +2,8 @@
   "tolerance_mm": 0.25,
   "angular_tolerance_rad": 0.2,
   "max_input_mb": 20,
-  "max_output_mb": 20,
-  "max_mesh_instances": 500,
-  "max_triangles": 300000,
-  "timeout_seconds": 180
+  "max_output_mb": 25,
+  "max_mesh_instances": 1000,
+  "max_triangles": 2000000,
+  "timeout_seconds": 300
 }
