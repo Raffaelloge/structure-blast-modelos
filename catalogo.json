@@ -1,0 +1,20 @@
+{
+  "schema_version": 1,
+  "models": [
+    {
+      "id": "portico-exemplo-84bf2f67bc",
+      "name": "Pórtico de exemplo",
+      "author": "Structure Blast",
+      "description": "Duas colunas e uma viga, com peças separadas e duas cores. Modelo gerado para testar a conversão.",
+      "source": "originais/portico-exemplo.step",
+      "file": "modelos/portico-exemplo-84bf2f67bc.glb",
+      "mesh_instances": 3,
+      "triangles": 36,
+      "materials": 2,
+      "bytes": 4208,
+      "sha256": "4541aa609ca2cf992692452556a94797ef06aee51a54890cf81142d137415748",
+      "source_sha256": "a079ab656e4a3c468d3a2482ffb26e01544bf0503039d2f5770948c27bffbbc5",
+      "converter": "20ee02f5921538f0dd400cc62b5dad1a492158cf6da753bc496056e2a8c0304d"
+    }
+  ]
+}
