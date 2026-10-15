@@ -10,6 +10,7 @@ from __future__ import annotations
 import argparse
 import hashlib
 import json
+import struct
 from pathlib import Path
 import re
 import sys
@@ -30,6 +31,19 @@ def sha256(path: Path) -> str:
         for block in iter(lambda: f.read(1024 * 1024), b""):
             h.update(block)
     return h.hexdigest()
+
+
+def embedded_metadata(path: Path) -> dict:
+    try:
+        data = path.read_bytes()
+        size, kind = struct.unpack_from("<II", data, 12)
+        if kind != 0x4E4F534A:
+            return {}
+        document = json.loads(data[20:20+size])
+        extras = document.get("extras", {})
+        return extras if isinstance(extras, dict) else {}
+    except Exception:
+        return {}
 
 
 def load_catalog() -> dict:
@@ -122,11 +136,12 @@ def sync_direct_entries() -> None:
             continue
 
         old = previous_direct.get(relative, {})
+        embedded = embedded_metadata(path)
         entry = {
             "id": old.get("id") or direct_id(relative),
-            "name": old.get("name") or path.stem,
-            "author": old.get("author", ""),
-            "description": old.get("description", "GLB enviado diretamente para a biblioteca."),
+            "name": old.get("name") or embedded.get("name") or path.stem,
+            "author": old.get("author") or embedded.get("author", ""),
+            "description": old.get("description") or embedded.get("description") or "GLB enviado diretamente para a biblioteca.",
             "source": relative,
             "file": relative,
             **stats,

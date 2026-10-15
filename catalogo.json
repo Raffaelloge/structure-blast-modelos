@@ -26,6 +26,36 @@
       "axis_correction": "+90deg_x_to_y_up"
     },
     {
+      "id": "glb-gpt-arena-de-containers-afad821fa2",
+      "name": "Arena de Containers",
+      "author": "gpt da resenha",
+      "description": "Arena industrial com contêineres empilhados, barreiras e rampas para destruição.",
+      "source": "modelos/gpt-arena-de-containers.glb",
+      "file": "modelos/gpt-arena-de-containers.glb",
+      "mesh_instances": 40,
+      "triangles": 472,
+      "materials": 12,
+      "bytes": 9060,
+      "optimization": "prebuilt",
+      "import_type": "direct_glb",
+      "sha256": "5a39a7800595780f20a738c99d36fedcca88349b280e4ad9015ae6096c24b3c4"
+    },
+    {
+      "id": "glb-gpt-arena-demolicao-e63aac211c",
+      "name": "Arena de Demolição",
+      "author": "gpt da resenha",
+      "description": "Arena circular com rampas, blocos de impacto e torre central.",
+      "source": "modelos/gpt-arena-demolicao.glb",
+      "file": "modelos/gpt-arena-demolicao.glb",
+      "mesh_instances": 38,
+      "triangles": 424,
+      "materials": 12,
+      "bytes": 9456,
+      "optimization": "prebuilt",
+      "import_type": "direct_glb",
+      "sha256": "49b7f4a544b3ce7217473ab7b9cc7460dd17571d44ed7eed13f2a23a50619019"
+    },
+    {
       "id": "assembly-full-4f765cf732",
       "name": "Assembly full",
       "author": "",
@@ -48,6 +78,51 @@
       "source_sha256": "170f28b16c7c3fac06ee41d1824c26e02f07f59abfb16a426da6c9bf0ba30c10",
       "converter": "5197509a32d1ed0b7f49a2daa504e8e8ad636f6c7801e0879aa54d34a7842730",
       "axis_correction": "+90deg_x_to_y_up"
+    },
+    {
+      "id": "glb-gpt-canteiro-da-resenha-1d5aa5d1cd",
+      "name": "Canteiro da Resenha",
+      "author": "gpt da resenha",
+      "description": "Canteiro com estrutura metálica em obra, grua e pilhas de material.",
+      "source": "modelos/gpt-canteiro-da-resenha.glb",
+      "file": "modelos/gpt-canteiro-da-resenha.glb",
+      "mesh_instances": 36,
+      "triangles": 432,
+      "materials": 12,
+      "bytes": 8524,
+      "optimization": "prebuilt",
+      "import_type": "direct_glb",
+      "sha256": "409dff50243846163bd46e0305bcb63d3fabdb5e90915a6be586da2ee28d01da"
+    },
+    {
+      "id": "glb-gpt-castelo-de-blocos-da6d38de0b",
+      "name": "Castelo de Blocos",
+      "author": "gpt da resenha",
+      "description": "Castelo modular com muralhas segmentadas, quatro torres e portão destrutível.",
+      "source": "modelos/gpt-castelo-de-blocos.glb",
+      "file": "modelos/gpt-castelo-de-blocos.glb",
+      "mesh_instances": 48,
+      "triangles": 576,
+      "materials": 12,
+      "bytes": 9644,
+      "optimization": "prebuilt",
+      "import_type": "direct_glb",
+      "sha256": "3b2df8e788b069d6d6c115f2ed23d1321a9b062b557372a76ff58c2b2e121c45"
+    },
+    {
+      "id": "glb-gpt-estacionamento-vertical-858034b5f0",
+      "name": "Estacionamento Vertical",
+      "author": "gpt da resenha",
+      "description": "Garagem de cinco níveis com lajes, pilares e rampas laterais.",
+      "source": "modelos/gpt-estacionamento-vertical.glb",
+      "file": "modelos/gpt-estacionamento-vertical.glb",
+      "mesh_instances": 60,
+      "triangles": 704,
+      "materials": 12,
+      "bytes": 11240,
+      "optimization": "prebuilt",
+      "import_type": "direct_glb",
+      "sha256": "40b137fdc97add3c0e4c9f6fc8f965f8fe79840f9b104cfafd2c5986b1870a82"
     },
     {
       "id": "full-assy-coral-05-22-26-2abf0143a1",
@@ -78,6 +153,36 @@
       "axis_correction": "+90deg_x_to_y_up"
     },
     {
+      "id": "glb-gpt-ilhas-das-torres-42d50ec925",
+      "name": "Ilhas das Torres",
+      "author": "gpt da resenha",
+      "description": "Cinco ilhas conectadas por passarelas, cada uma com uma torre destrutível.",
+      "source": "modelos/gpt-ilhas-das-torres.glb",
+      "file": "modelos/gpt-ilhas-das-torres.glb",
+      "mesh_instances": 35,
+      "triangles": 420,
+      "materials": 12,
+      "bytes": 8568,
+      "optimization": "prebuilt",
+      "import_type": "direct_glb",
+      "sha256": "f30e6f492e311aa2dcfe8d1fc769cb3ca1f79e303e1fa2179e9a334c4050f3eb"
+    },
+    {
+      "id": "glb-gpt-labirinto-de-concreto-966970b9fe",
+      "name": "Labirinto de Concreto",
+      "author": "gpt da resenha",
+      "description": "Labirinto destrutível de paredes baixas com uma torre amarela no centro.",
+      "source": "modelos/gpt-labirinto-de-concreto.glb",
+      "file": "modelos/gpt-labirinto-de-concreto.glb",
+      "mesh_instances": 34,
+      "triangles": 408,
+      "materials": 12,
+      "bytes": 8396,
+      "optimization": "prebuilt",
+      "import_type": "direct_glb",
+      "sha256": "1604568aee055209a0eba880ad83ce3c423d59d653e46c941aff8a63a89aa5f1"
+    },
+    {
       "id": "model-34e5465a38",
       "name": "model",
       "author": "",
@@ -100,6 +205,36 @@
       "source_sha256": "7b0839248d6ffb910d1ec7564b0cf239406f0f36480c5f84a006f4eaf279461e",
       "converter": "5197509a32d1ed0b7f49a2daa504e8e8ad636f6c7801e0879aa54d34a7842730",
       "axis_correction": "+90deg_x_to_y_up"
+    },
+    {
+      "id": "glb-gpt-ponte-do-caos-fd1851fc7f",
+      "name": "Ponte do Caos",
+      "author": "gpt da resenha",
+      "description": "Ponte segmentada sobre pilares com tabuleiro destrutível e estrutura superior.",
+      "source": "modelos/gpt-ponte-do-caos.glb",
+      "file": "modelos/gpt-ponte-do-caos.glb",
+      "mesh_instances": 52,
+      "triangles": 624,
+      "materials": 12,
+      "bytes": 9816,
+      "optimization": "prebuilt",
+      "import_type": "direct_glb",
+      "sha256": "60f7140664bfd87cf8360fe0a5406773098bceaad80548ce6b82a38589dd1bc3"
+    },
+    {
+      "id": "glb-gpt-patio-industrial-88651712c7",
+      "name": "Pátio Industrial",
+      "author": "gpt da resenha",
+      "description": "Galpão aberto com pórticos, máquinas, tanques e docas.",
+      "source": "modelos/gpt-patio-industrial.glb",
+      "file": "modelos/gpt-patio-industrial.glb",
+      "mesh_instances": 33,
+      "triangles": 388,
+      "materials": 12,
+      "bytes": 8148,
+      "optimization": "prebuilt",
+      "import_type": "direct_glb",
+      "sha256": "3b06c7a665ae39bdf583ccb81ade1f439488fdbf74176618eae8b76ff1a600a6"
     },
     {
       "id": "portico-exemplo-84bf2f67bc",
@@ -139,6 +274,21 @@
       "optimization": "prebuilt",
       "import_type": "direct_glb",
       "sha256": "3457251863479b6cfbc0be05cb29d03c41de070c6cdb3b3e8ec5fbde5208fed5"
+    },
+    {
+      "id": "glb-gpt-torre-maluca-27ce427064",
+      "name": "Torre Maluca",
+      "author": "gpt da resenha",
+      "description": "Torre de sete pavimentos deslocados, pilares finos e balanços para derrubar.",
+      "source": "modelos/gpt-torre-maluca.glb",
+      "file": "modelos/gpt-torre-maluca.glb",
+      "mesh_instances": 44,
+      "triangles": 528,
+      "materials": 12,
+      "bytes": 9152,
+      "optimization": "prebuilt",
+      "import_type": "direct_glb",
+      "sha256": "7c9247dcf09b8ee34da10d35b8b7953ea98b78a12c5f0a946c759f1763394160"
     }
   ]
 }
