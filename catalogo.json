@@ -95,6 +95,21 @@
       "sha256": "409dff50243846163bd46e0305bcb63d3fabdb5e90915a6be586da2ee28d01da"
     },
     {
+      "id": "glb-carro-c6c7de6c35",
+      "name": "carro",
+      "author": "",
+      "description": "GLB enviado diretamente para a biblioteca.",
+      "source": "modelos/carro.glb",
+      "file": "modelos/carro.glb",
+      "mesh_instances": 1,
+      "triangles": 2040,
+      "materials": 8,
+      "bytes": 88340,
+      "optimization": "prebuilt",
+      "import_type": "direct_glb",
+      "sha256": "a37813242fd04e6e2e8117bbf7237136440614215f6eeda8c99bbf95e88c7b49"
+    },
+    {
       "id": "glb-gpt-castelo-de-blocos-da6d38de0b",
       "name": "Castelo de Blocos",
       "author": "gpt da resenha",
