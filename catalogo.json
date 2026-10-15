@@ -26,21 +26,6 @@
       "axis_correction": "+90deg_x_to_y_up"
     },
     {
-      "id": "glb-gpt-arena-de-containers-afad821fa2",
-      "name": "Arena de Containers",
-      "author": "gpt da resenha",
-      "description": "Arena industrial com contêineres empilhados, barreiras e rampas para destruição.",
-      "source": "modelos/gpt-arena-de-containers.glb",
-      "file": "modelos/gpt-arena-de-containers.glb",
-      "mesh_instances": 40,
-      "triangles": 472,
-      "materials": 12,
-      "bytes": 9060,
-      "optimization": "prebuilt",
-      "import_type": "direct_glb",
-      "sha256": "5a39a7800595780f20a738c99d36fedcca88349b280e4ad9015ae6096c24b3c4"
-    },
-    {
       "id": "glb-gpt-arena-demolicao-e63aac211c",
       "name": "Arena de Demolição",
       "author": "gpt da resenha",
@@ -104,21 +89,6 @@
       "axis_correction": "+90deg_x_to_y_up"
     },
     {
-      "id": "glb-gpt-canteiro-da-resenha-1d5aa5d1cd",
-      "name": "Canteiro da Resenha",
-      "author": "gpt da resenha",
-      "description": "Canteiro com estrutura metálica em obra, grua e pilhas de material.",
-      "source": "modelos/gpt-canteiro-da-resenha.glb",
-      "file": "modelos/gpt-canteiro-da-resenha.glb",
-      "mesh_instances": 36,
-      "triangles": 432,
-      "materials": 12,
-      "bytes": 8524,
-      "optimization": "prebuilt",
-      "import_type": "direct_glb",
-      "sha256": "409dff50243846163bd46e0305bcb63d3fabdb5e90915a6be586da2ee28d01da"
-    },
-    {
       "id": "glb-carro-c6c7de6c35",
       "name": "carro",
       "author": "",
@@ -147,21 +117,6 @@
       "optimization": "prebuilt",
       "import_type": "direct_glb",
       "sha256": "3b2df8e788b069d6d6c115f2ed23d1321a9b062b557372a76ff58c2b2e121c45"
-    },
-    {
-      "id": "glb-gpt-estacionamento-vertical-858034b5f0",
-      "name": "Estacionamento Vertical",
-      "author": "gpt da resenha",
-      "description": "Garagem de cinco níveis com lajes, pilares e rampas laterais.",
-      "source": "modelos/gpt-estacionamento-vertical.glb",
-      "file": "modelos/gpt-estacionamento-vertical.glb",
-      "mesh_instances": 60,
-      "triangles": 704,
-      "materials": 12,
-      "bytes": 11240,
-      "optimization": "prebuilt",
-      "import_type": "direct_glb",
-      "sha256": "40b137fdc97add3c0e4c9f6fc8f965f8fe79840f9b104cfafd2c5986b1870a82"
     },
     {
       "id": "full-assy-coral-05-22-26-2abf0143a1",
@@ -216,21 +171,6 @@
       "axis_correction": "+90deg_x_to_y_up"
     },
     {
-      "id": "glb-gpt-ilhas-das-torres-42d50ec925",
-      "name": "Ilhas das Torres",
-      "author": "gpt da resenha",
-      "description": "Cinco ilhas conectadas por passarelas, cada uma com uma torre destrutível.",
-      "source": "modelos/gpt-ilhas-das-torres.glb",
-      "file": "modelos/gpt-ilhas-das-torres.glb",
-      "mesh_instances": 35,
-      "triangles": 420,
-      "materials": 12,
-      "bytes": 8568,
-      "optimization": "prebuilt",
-      "import_type": "direct_glb",
-      "sha256": "f30e6f492e311aa2dcfe8d1fc769cb3ca1f79e303e1fa2179e9a334c4050f3eb"
-    },
-    {
       "id": "glb-gpt-labirinto-de-concreto-966970b9fe",
       "name": "Labirinto de Concreto",
       "author": "gpt da resenha",
@@ -268,21 +208,6 @@
       "source_sha256": "7b0839248d6ffb910d1ec7564b0cf239406f0f36480c5f84a006f4eaf279461e",
       "converter": "5197509a32d1ed0b7f49a2daa504e8e8ad636f6c7801e0879aa54d34a7842730",
       "axis_correction": "+90deg_x_to_y_up"
-    },
-    {
-      "id": "glb-gpt-ponte-do-caos-fd1851fc7f",
-      "name": "Ponte do Caos",
-      "author": "gpt da resenha",
-      "description": "Ponte segmentada sobre pilares com tabuleiro destrutível e estrutura superior.",
-      "source": "modelos/gpt-ponte-do-caos.glb",
-      "file": "modelos/gpt-ponte-do-caos.glb",
-      "mesh_instances": 52,
-      "triangles": 624,
-      "materials": 12,
-      "bytes": 9816,
-      "optimization": "prebuilt",
-      "import_type": "direct_glb",
-      "sha256": "60f7140664bfd87cf8360fe0a5406773098bceaad80548ce6b82a38589dd1bc3"
     },
     {
       "id": "glb-gpt-patio-industrial-88651712c7",
